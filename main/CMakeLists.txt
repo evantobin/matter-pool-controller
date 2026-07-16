@@ -1,0 +1,25 @@
+idf_component_register(
+    SRCS
+        "main.cpp"
+        "matter_setup.cpp"
+        "state.cpp"
+        "pump_control.cpp"
+        "pentair_pump.cpp"
+        "relays.cpp"
+        "sensors.cpp"
+        "serial_console.cpp"
+        "user_feedback.cpp"
+        "psa_init_patch.c"
+    INCLUDE_DIRS "."
+    REQUIRES
+    nvs_flash
+    esp_wifi
+    esp_netif
+    esp_event
+    esp_timer
+    console
+    driver
+    esp_driver_ledc
+    mbedtls
+    esp_matter
+)

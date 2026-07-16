@@ -1,0 +1,26 @@
+# ESP-IDF build products and local configuration
+build/
+sdkconfig
+sdkconfig.old
+managed_components/
+.cache/
+
+# Editor files
+.DS_Store
+.clangd
+.vscode/
+
+# Credentials and local certificates
+.env
+.env.*
+.dev.vars
+*.pem
+*.key
+*.p8
+*.p12
+*.crt
+credentials.json
+service-account*.json
+
+# Component-manager output regenerated from idf_component.yml
+dependencies.lock
