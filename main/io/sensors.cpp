@@ -1,4 +1,4 @@
-#include "sensors.h"
+#include "io/sensors.h"
 
 #include <cmath>
 
@@ -14,11 +14,13 @@
 #include <lib/core/CHIPError.h>
 #include <platform/CHIPDeviceLayer.h>
 
-#include "board_pins.h"
-#include "state.h"
+#include "app/state.h"
+#include "board/board_pins.h"
 
 static const char *TAG = "sensors";
 
+// Sampling happens in the main loop; Matter attribute changes are deferred onto
+// the Matter thread to keep GPIO timing independent of the Matter stack.
 static portMUX_TYPE sensorMatterMux = portMUX_INITIALIZER_UNLOCKED;
 static struct {
   bool pending = false;

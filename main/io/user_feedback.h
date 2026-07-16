@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 
+// Physical status feedback and local factory-reset entry points.
 void setupUserFeedback();
 void updateUserFeedback();
 void handleBootButton();

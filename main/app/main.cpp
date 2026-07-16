@@ -12,20 +12,22 @@
 #include <lib/support/logging/TextOnlyLogging.h>
 #include <nvs_flash.h>
 
-#include "board_identity.h"
-#include "board_pins.h"
-#include "matter_setup.h"
-#include "pentair_pump.h"
-#include "psa_init_patch.h"
-#include "pump_control.h"
-#include "relays.h"
-#include "sensors.h"
-#include "serial_console.h"
-#include "state.h"
-#include "user_feedback.h"
+#include "app/state.h"
+#include "board/board_identity.h"
+#include "board/board_pins.h"
+#include "console/serial_console.h"
+#include "io/relays.h"
+#include "io/sensors.h"
+#include "io/user_feedback.h"
+#include "matter/matter_setup.h"
+#include "platform/psa_init_patch.h"
+#include "pump/pentair_pump.h"
+#include "pump/pump_control.h"
 
 static const char *TAG = "main";
 
+// Owns startup ordering and the cooperative loop. Hardware and Matter work live
+// in their respective modules so this file stays focused on lifecycle.
 static void configureLogLevels() {
   static constexpr const char *ESP_MATTER_TAGS[] = {
     "esp_matter_attribute", "esp_matter_cluster", "esp_matter_command",

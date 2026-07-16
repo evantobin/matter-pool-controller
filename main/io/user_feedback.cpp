@@ -1,4 +1,4 @@
-#include "user_feedback.h"
+#include "io/user_feedback.h"
 
 #include <driver/gpio.h>
 #include <driver/ledc.h>
@@ -9,9 +9,9 @@
 #include <led_strip.h>
 #include <string.h>
 
-#include "board_pins.h"
-#include "relays.h"
-#include "state.h"
+#include "app/state.h"
+#include "board/board_pins.h"
+#include "io/relays.h"
 
 static const char *TAG = "feedback";
 
@@ -19,6 +19,9 @@ static led_strip_handle_t sLedStrip = nullptr;
 static bool sBuzzerInitialized = false;
 static bool sButtonConfigured = false;
 static bool sFactoryResetInProgress = false;
+
+// Owns physical installation feedback: the LED, buzzer, boot button, and the
+// safe factory-reset path shared by the button and serial console.
 
 // ---------- Forward declarations ----------
 

@@ -2,6 +2,8 @@
 
 #include <stdint.h>
 
+// Waveshare ESP32-S3 Relay 6CH wiring. Keep board-specific GPIO choices here
+// so the rest of the firmware does not depend on raw pin numbers.
 namespace BoardPins {
 
 static constexpr int RS485_RX = 18;

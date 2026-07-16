@@ -1,4 +1,4 @@
-#include "pentair_pump.h"
+#include "pump/pentair_pump.h"
 
 #include <string.h>
 
@@ -10,6 +10,8 @@
 
 static const char *TAG = "pentair";
 
+// Low-level Pentair RS-485 frame transport. This class knows the wire protocol;
+// pump_control.cpp owns policy such as speed targets and keepalives.
 PentairPump::PentairPump(uart_port_t uartNum, uint8_t pumpAddress, uint8_t controllerAddress, int directionPin)
   : uartNum(uartNum),
     pumpAddress(pumpAddress),

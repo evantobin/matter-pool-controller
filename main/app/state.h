@@ -6,9 +6,11 @@
 #include <esp_matter.h>
 #include <esp_matter_endpoint.h>
 
-#include "board_identity.h"
-#include "board_pins.h"
+#include "board/board_identity.h"
+#include "board/board_pins.h"
 
+// Cross-module runtime model. Keep persistent configuration out of this header
+// and add new mutable state only when it is genuinely shared.
 // ---------- constants ----------
 
 static constexpr const char *FIRMWARE_VERSION = "0.2.0";

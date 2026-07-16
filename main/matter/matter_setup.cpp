@@ -1,4 +1,4 @@
-#include "matter_setup.h"
+#include "matter/matter_setup.h"
 
 #include <string.h>
 
@@ -16,11 +16,11 @@
 #include <setup_payload/OnboardingCodesUtil.h>
 #include <setup_payload/SetupPayload.h>
 
-#include "board_identity.h"
-#include "board_pins.h"
-#include "pump_control.h"
-#include "relays.h"
-#include "state.h"
+#include "app/state.h"
+#include "board/board_identity.h"
+#include "board/board_pins.h"
+#include "io/relays.h"
+#include "pump/pump_control.h"
 
 static const char *TAG = "matter";
 
@@ -32,6 +32,8 @@ static char RELAY_LABELS[BoardPins::RelayCount][16] = {
   "Relay 1", "Relay 2", "Relay 3", "Relay 4", "Relay 5", "Relay 6"
 };
 
+// Builds the Matter bridge and translates attribute writes into the local pump
+// and relay drivers. No transport or hardware protocol logic belongs here.
 // ---------- Commissionable Data Provider ----------
 
 class PoolConductorCommissionableDataProvider : public chip::DeviceLayer::CommissionableDataProvider,

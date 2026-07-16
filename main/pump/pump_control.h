@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 
+// High-level local pump control surface used by Matter and the main loop.
 enum class PumpControlMode : uint8_t {
   Rpm = 0,
   Gpm = 1,

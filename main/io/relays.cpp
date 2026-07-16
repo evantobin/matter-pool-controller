@@ -1,4 +1,4 @@
-#include "relays.h"
+#include "io/relays.h"
 
 #include <cstring>
 #include <driver/gpio.h>
@@ -10,8 +10,8 @@
 #include <lib/core/CHIPError.h>
 #include <platform/CHIPDeviceLayer.h>
 
-#include "board_pins.h"
-#include "state.h"
+#include "app/state.h"
+#include "board/board_pins.h"
 
 static const char *TAG = "relays";
 static bool relaysConfigured = false;
@@ -29,7 +29,6 @@ static void reportRelaysToMatter(intptr_t) {
   taskENTER_CRITICAL(&relayMatterMux);
   dirtyMask = relayMatterReport.dirtyMask;
   for (uint8_t i = 0; i < BoardPins::RelayCount; i++) {
-    relayConfigs[i].enabled = true;
     states[i] = relayMatterReport.states[i];
   }
   relayMatterReport.dirtyMask = 0;
@@ -73,6 +72,9 @@ static void scheduleRelayMatterReport(uint8_t index, bool active) {
 
 void setupRelaysSafe() {
   for (uint8_t i = 0; i < BoardPins::RelayCount; i++) {
+    // Public firmware exposes all relay channels by default. Each output is
+    // driven to its inactive level before Matter can receive a command.
+    relayConfigs[i].enabled = true;
     gpio_config_t cfg = {
       .pin_bit_mask = (1ULL << BoardPins::RelayPins[i]),
       .mode = GPIO_MODE_OUTPUT,

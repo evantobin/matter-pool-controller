@@ -1,4 +1,4 @@
-#include "serial_console.h"
+#include "console/serial_console.h"
 
 #include <stdio.h>
 
@@ -8,11 +8,14 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
-#include "user_feedback.h"
-#include "matter_setup.h"
+#include "io/user_feedback.h"
+#include "matter/matter_setup.h"
 
 static const char *TAG = "console";
 static esp_console_repl_t *sRepl = nullptr;
+
+// Small recovery interface for installation and service. Commands that alter
+// state defer to the same public functions used by the physical controls.
 
 static int resetCommand(int, char **) {
   printf("Rebooting Pool Conductor...\n");

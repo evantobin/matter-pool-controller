@@ -15,7 +15,7 @@ hosted product experience.
 ## Hardware
 
 The current board target is the Waveshare ESP32-S3 Relay 6CH. Pin assignments
-are defined in `main/board_pins.h`:
+are defined in `main/board/board_pins.h`:
 
 - RS-485 pump bus: RX GPIO 18, TX GPIO 17
 - Relay outputs: GPIO 46, 45, 42, 41, 2, and 1
@@ -42,12 +42,12 @@ you configure them in source for the hardware connected to each input.
 
 ## Before Flashing
 
-Edit `main/board_identity.h` for each physical controller. In particular,
+Edit `main/board/board_identity.h` for each physical controller. In particular,
 change `BOARD_DEVICE_ID`, the Matter setup PIN, and discriminator. The included
 values are development defaults and must not be reused across devices exposed to
 untrusted people or networks.
 
-The Matter vendor and product IDs in `main/matter_setup.cpp` are development
+The Matter vendor and product IDs in `main/matter/matter_setup.cpp` are development
 placeholders. Obtain and use assigned IDs before distributing a commercial
 product.
 
@@ -79,9 +79,15 @@ At the serial prompt:
 ## Project Layout
 
 ```text
-main/                 Application source and Matter endpoint setup
-main/board_pins.h     Board-specific GPIO assignments
-main/board_identity.h Per-device Matter identity defaults
+main/app/             Startup order and shared runtime state
+main/board/           Board pins and per-device Matter identity defaults
+main/console/         UART recovery and commissioning commands
+main/io/              Relays, sensors, LED/buzzer, and reset button
+main/matter/          Matter bridge and endpoint setup
+main/platform/        ESP-IDF compatibility workarounds
+main/pump/            Pentair protocol and pump control
+main/README.md        Module ownership and dependency direction
+docs/ARCHITECTURE.md  Runtime flow, boundaries, and safety model
 partitions.csv        Single-app, non-OTA flash layout
 sdkconfig.defaults    ESP-IDF project defaults
 ```
@@ -92,3 +98,9 @@ Do not commit certificates, private keys, generated `sdkconfig`, or build
 outputs. The repository `.gitignore` excludes those files along with local
 component caches. Keep the controller on a trusted network and use the physical
 factory-reset action to remove an existing Matter fabric before transferring it.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development and pull-request guidance,
+[SECURITY.md](SECURITY.md) for responsible vulnerability reporting, and
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for module boundaries.

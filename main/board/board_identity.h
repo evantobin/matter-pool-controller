@@ -1,6 +1,7 @@
 #pragma once
 
-// Change these before flashing each physical controller.
+// Per-controller identity and commissioning defaults. Change these before
+// flashing each physical controller; do not reuse the development values.
 static constexpr const char *BOARD_DEVICE_ID = "POOL-001";
 
 // Matter commissioning credentials.

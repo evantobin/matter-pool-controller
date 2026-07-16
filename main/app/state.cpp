@@ -1,15 +1,12 @@
-#include "state.h"
+#include "app/state.h"
 
 #include <cmath>
-#include <string.h>
-
 #include <driver/gpio.h>
 #include <esp_timer.h>
 #include <nvs_flash.h>
 
-// ---------- static sensor buses ----------
-
-// ---------- global definitions ----------
+// Shared runtime state definitions. Configuration belongs in board/; this file
+// holds only mutable state shared by the hardware and Matter modules.
 
 RelayConfig relayConfigs[BoardPins::RelayCount];
 SensorConfig sensorConfigs[BoardPins::SensorCount];

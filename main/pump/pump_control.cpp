@@ -1,4 +1,4 @@
-#include "pump_control.h"
+#include "pump/pump_control.h"
 
 #include <esp_log.h>
 #include <esp_matter.h>
@@ -10,11 +10,13 @@
 #include <lib/core/CHIPError.h>
 #include <platform/CHIPDeviceLayer.h>
 
-#include "pentair_pump.h"
-#include "state.h"
+#include "app/state.h"
+#include "pump/pentair_pump.h"
 
 static const char *TAG = "pump";
 
+// Converts Matter-level on/off and dimmer requests into a maintained local pump
+// target, then reports observed pump state back to Matter.
 extern PentairPump pentairPump;
 
 static volatile bool pumpMatterReportActive = false;

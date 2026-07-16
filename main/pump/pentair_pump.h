@@ -5,6 +5,7 @@
 
 #include <driver/uart.h>
 
+// Raw status fields decoded from the Pentair IntelliFlo-compatible protocol.
 struct PentairPumpStatus {
   bool valid = false;
   uint8_t command = 0;
@@ -21,6 +22,7 @@ struct PentairPumpStatus {
   uint8_t clockMinute = 0;
 };
 
+// Thin UART/RS-485 protocol client. Keep Matter concepts out of this layer.
 class PentairPump {
 public:
   PentairPump(uart_port_t uartNum, uint8_t pumpAddress, uint8_t controllerAddress, int directionPin = -1);
