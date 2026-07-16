@@ -45,26 +45,26 @@ flowchart LR
 
 ### Core parts
 
-| Part | What to get it for |
-| --- | --- |
-| [Waveshare ESP32-S3 Relay 6CH](https://www.waveshare.com/product/esp32-s3-relay-6ch.htm) | The controller itself: ESP32-S3, six relays, and RS-485 in one board. |
-| [VEVOR weatherproof junction box](https://www.vevor.com/electrical-enclosure-c_10749/vevor-outdoor-electrical-junction-box-13-78-x-9-84-x-5-90-in-abs-plastic-electrical-enclosure-box-with-hinged-cover-stainless-steel-latch-ip67-dustproof-waterproof-for-outdoor-electrical-projects-p_010661475587) | A 13.78 x 9.84 x 5.90 inch box that fits the build well. Do not go smaller than 11 x 8 inches. |
-| Two 35 mm DIN rails | One is for the low-voltage side and controller wiring. The other is for your contactors and higher-voltage wiring. |
-| [24 V, 2.5 A DIN-rail power supply](https://www.amazon.com/HDR-60-24-Step-Shape-Supply-24Volt-2-5Amp/dp/B0CLGRMKBM) | Powers the ESP32 relay board, contactor coils, and 24 V gear like valves. |
-| 18/10 sprinkler cable | Great for sensors and 24 V relay-control wiring. It is thicker than Ethernet and gives you extra conductors to work with. |
-| 24 V contactors or control relays | Pick units that make sense for the equipment you want to control: SWG, heater, landscape lights, valves, and so on. |
-| RS-485 wiring for the pump | Connects the controller to the Pentair pump communication bus. |
+| Part | What to get it for | Where to get it |
+| --- | --- | --- |
+| Waveshare ESP32-S3 Relay 6CH | The controller itself: ESP32-S3, six relays, and RS-485 in one board. | [Amazon](https://www.amazon.com/s?k=Waveshare+ESP32-S3+Relay+6CH) |
+| VEVOR weatherproof junction box | A 13.78 x 9.84 x 5.90 inch box that fits the build well. Do not go smaller than 11 x 8 inches. | [VEVOR](https://www.vevor.com/electrical-enclosure-c_10749/vevor-outdoor-electrical-junction-box-13-78-x-9-84-x-5-90-in-abs-plastic-electrical-enclosure-box-with-hinged-cover-stainless-steel-latch-ip67-dustproof-waterproof-for-outdoor-electrical-projects-p_010661475587) |
+| Two 35 mm DIN rails | One is for the low-voltage side and controller wiring. The other is for your contactors and 120 V / 240 V wiring. | [Amazon](https://www.amazon.com/s?k=35mm+DIN+rail) |
+| 24 V, 2.5 A DIN-rail power supply | Powers the ESP32 relay board, contactor coils, and 24 V gear like valves. | [Amazon](https://www.amazon.com/HDR-60-24-Step-Shape-Supply-24Volt-2-5Amp/dp/B0CLGRMKBM) |
+| 18/10 sprinkler cable | Great for sensors and 24 V relay-control wiring. It is thicker than Ethernet and gives you extra conductors to work with. | [Amazon](https://www.amazon.com/s?k=18%2F10+sprinkler+cable) |
+| Contactors | Use a **DC 24 V coil, normally open, 2-pole DIN contactor**. It needs to be DC and normally open, so it turns off when 24 V is removed. | [Amazon](https://www.amazon.com/Heschen-Household-Contactor-CT1-16-Normally/dp/B0CXH9RBGM) |
+| RS-485 wiring for the pump | Connects the controller to the Pentair pump communication bus. | [Amazon](https://www.amazon.com/s?k=RS-485+wire+Pentair+IntelliFlo) |
 
 ### Optional sensors
 
 You do not need any sensors for the controller to work. Add one, all three, or
 none at all.
 
-| What you want to measure | Search Amazon for | Make sure it is |
+| Sensor | What to check | Where to get it |
 | --- | --- | --- |
-| Water temperature | `waterproof DS18B20 temperature sensor` | A [DS18B20](https://www.analog.com/en/products/ds18b20.html) one-wire probe. |
-| Water level | `vertical float switch 24V dry contact` | A low-voltage dry-contact switch; the [Flowline Switch-Tek LV10](https://www.flowline.com/product/switch-tek-lv10-vertical-buoyancy-liquid-level-switch/) is a useful reference. |
-| Water flow | `inline water flow switch 24V dry contact` | Rated for your plumbing and pressure; the [Gems FS-550](https://www.gemssensors.com/products/FS-550/30640) shows the kind of switch to look for. |
+| Water temperature | A [DS18B20](https://www.analog.com/en/products/ds18b20.html) one-wire probe. | [Amazon: waterproof DS18B20 temperature sensor](https://www.amazon.com/s?k=waterproof+DS18B20+temperature+sensor) |
+| Water level | A low-voltage dry-contact switch; the [Flowline Switch-Tek LV10](https://www.flowline.com/product/switch-tek-lv10-vertical-buoyancy-liquid-level-switch/) is a useful reference. | [Amazon: vertical float switch 24V dry contact](https://www.amazon.com/s?k=vertical+float+switch+24V+dry+contact) |
+| Water flow | Rated for your plumbing and pressure; the [Gems FS-550](https://www.gemssensors.com/products/FS-550/30640) shows the kind of switch to look for. | [Amazon: inline water flow switch 24V dry contact](https://www.amazon.com/s?k=inline+water+flow+switch+24V+dry+contact) |
 
 ## Build the Panel
 
