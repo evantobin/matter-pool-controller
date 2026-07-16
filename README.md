@@ -103,10 +103,11 @@ low-voltage valve or contactor coils.
 
 ### Give yourself room in the box
 
-Get a weatherproof electrical enclosure at least 11 x 8 inches. A VEVOR-style
-weather-resistant junction box around 13.78 x 9.84 x 5.90 inches is a good
-size. It gives you room for two DIN rails: one side for the low-voltage relay
-and controller wiring, and the other for the contactors and their wiring.
+Get a weatherproof electrical enclosure at least 11 x 8 inches. This
+[VEVOR weather-resistant junction box](https://www.vevor.com/electrical-enclosure-c_10749/vevor-outdoor-electrical-junction-box-13-78-x-9-84-x-5-90-in-abs-plastic-electrical-enclosure-box-with-hinged-cover-stainless-steel-latch-ip67-dustproof-waterproof-for-outdoor-electrical-projects-p_010661475587)
+is 13.78 x 9.84 x 5.90 inches, which gives you room for two DIN rails: one side
+for the low-voltage relay and controller wiring, and the other for the
+contactors and their wiring.
 
 You will also want a small DIN-rail 120 V to 24 V power supply to run contactor
 coils and low-voltage gear like valves. This
