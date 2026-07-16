@@ -69,6 +69,7 @@ through adding a new sensor type from GPIO wiring through its Matter endpoint.
 | Water temperature | A [DS18B20](https://www.analog.com/en/products/ds18b20.html) one-wire probe. | [Amazon: waterproof DS18B20 temperature sensor](https://www.amazon.com/s?k=waterproof+DS18B20+temperature+sensor) |
 | Water level | A low-voltage dry-contact switch; the [Flowline Switch-Tek LV10](https://www.flowline.com/product/switch-tek-lv10-vertical-buoyancy-liquid-level-switch/) is a useful reference. | [Amazon: vertical float switch 24V dry contact](https://www.amazon.com/s?k=vertical+float+switch+24V+dry+contact) |
 | Water flow | Rated for your plumbing and pressure; the [Gems FS-550](https://www.gemssensors.com/products/FS-550/30640) shows the kind of switch to look for. | [Amazon: inline water flow switch 24V dry contact](https://www.amazon.com/s?k=inline+water+flow+switch+24V+dry+contact) |
+| pH | An analog pH kit that you can read with an ADC-capable input and calibrate in the driver. | [DFRobot Gravity industrial analog pH meter](https://www.dfrobot.com/product-1110.html) |
 
 ## Build the Panel
 

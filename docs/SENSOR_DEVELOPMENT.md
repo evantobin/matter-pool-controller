@@ -28,6 +28,25 @@ Keep the GPIO choice in `main/board/board_pins.h` and the per-controller sensor
 choice in `main/board/board_sensor_config.h`. That keeps the driver reusable
 when someone wires the same sensor to a different input.
 
+## Example: Adding pH
+
+The [DFRobot Gravity industrial analog pH meter](https://www.dfrobot.com/product-1110.html)
+is a good example of a sensor that does not fit the included switch or DS18B20
+patterns. It is an analog pH kit, so give it an ADC-capable input and write a
+small driver that reads the voltage, applies your calibration, and turns that
+into a pH number.
+
+The basic change looks like this:
+
+1. Add `Ph` to `SensorType` and `BoardSensorConfig::Type`.
+2. Assign the pH board to the GPIO you wired in `board_sensor_config.h`.
+3. Add the analog read and calibration code under `main/io/`.
+4. Sample it from the main loop and report the result through a suitable Matter
+   endpoint or attribute.
+
+That same shape works for other analog pool measurements such as ORP, pressure,
+or tank level.
+
 ## Matter Side
 
 The controller is a Matter bridge, so a sensor needs a Matter device type that
