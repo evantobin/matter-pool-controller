@@ -109,8 +109,8 @@ is 13.78 x 9.84 x 5.90 inches, which gives you room for two DIN rails: one side
 for the low-voltage relay and controller wiring, and the other for the
 contactors and their wiring.
 
-You will also want a small DIN-rail 120 V to 24 V power supply to run contactor
-coils and low-voltage gear like valves. This
+You will also want a small DIN-rail 120 V to 24 V power supply. It powers the
+ESP32 relay board, contactor coils, and low-voltage gear like valves. This
 [24 V, 2.5 A DIN-rail supply](https://www.amazon.com/HDR-60-24-Step-Shape-Supply-24Volt-2-5Amp/dp/B0CLGRMKBM)
 is the kind of unit that fits this build.
 
