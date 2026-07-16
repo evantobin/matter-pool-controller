@@ -12,6 +12,8 @@ There is no cloud synchronization, telemetry upload, remote logging, or OTA
 update client. Commands stay between the controller and the Matter fabric that
 commissions it.
 
+**Matter platforms:** Apple Home | Amazon Alexa | Google Home
+
 **Contents:** [What it does](#what-it-does) · [Quick start](#quick-start) ·
 [Hardware and wiring](#hardware-and-wiring) · [Commissioning](#commissioning) ·
 [Safety](#safety) · [Project layout](#project-layout) · [Support development](#support-development)
@@ -33,8 +35,9 @@ flowchart LR
   Bridge <-->|"RS-485"| Pump["Pentair pump"]
   Bridge --> Relays["24 V control relays"]
   Sensors["Flow, level, temperature"] --> Bridge
-  Relays --> Contactors["External contactors"]
-  Contactors --> Equipment["SWG, heater, lights, etc."]
+  Relays --> Swg["SWG control relay"]
+  Relays --> Heater["Pool heater control relay"]
+  Relays --> Lights["Landscape-light control relay"]
 ```
 
 ## Quick Start
