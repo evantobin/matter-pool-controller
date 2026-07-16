@@ -22,8 +22,11 @@ Pin assignments are defined in `main/board/board_pins.h`:
 - Buzzer: GPIO 21
 - RGB status LED: GPIO 38
 
-Verify your wiring, relay polarity, and pump protocol before connecting
-high-voltage equipment. This firmware starts with every relay off.
+Use the onboard relay channels only for 24 V or lower control circuits. For a
+saltwater chlorine generator, pump, heater, or any other mains-voltage load,
+use a properly rated external contactor and have its coil controlled by the
+controller relay. Verify wiring, relay polarity, and pump protocol before
+energizing equipment. This firmware starts with every relay off.
 
 ### Hardware References
 
@@ -42,8 +45,8 @@ high-voltage equipment. This firmware starts with every relay off.
   your installation.
 
 The sensor inputs are for low-voltage sensors only. Use equipment appropriate
-for pool installations and have mains-voltage work completed by a qualified
-electrician.
+for pool installations and have mains-voltage work, including contactor
+installation, completed by a qualified electrician.
 
 ## Matter Devices
 
