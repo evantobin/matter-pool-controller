@@ -39,10 +39,30 @@
   <text x="433" y="227" text-anchor="middle" class="small">powers the low-voltage side</text>
   <path d="M252 215 H328" class="wire-mains" marker-end="url(#arrow-mains)"/>
 
-  <rect x="325" y="343" width="216" height="128" class="low-box"/>
-  <text x="433" y="382" text-anchor="middle" class="label">ESP32 relay board</text>
-  <text x="433" y="406" text-anchor="middle" class="small">24 V power input</text>
-  <text x="433" y="430" text-anchor="middle" class="small">6 relay control outputs</text>
+  <rect x="325" y="343" width="216" height="128" rx="8" fill="#277b78" stroke="#155b5b" stroke-width="2"/>
+  <rect x="336" y="354" width="96" height="75" rx="5" fill="#d9e7e5" stroke="#94b8b4" stroke-width="2"/>
+  <rect x="347" y="364" width="74" height="43" rx="3" fill="#3e4f52"/>
+  <rect x="355" y="371" width="58" height="29" rx="2" fill="#a9c4be"/>
+  <text x="384" y="419" text-anchor="middle" class="tiny">ESP32-S3</text>
+  <text x="384" y="443" text-anchor="middle" class="tiny" fill="#ffffff">RS-485 / sensors</text>
+  <rect x="445" y="354" width="35" height="28" rx="3" fill="#f2c94c" stroke="#c49a1e" stroke-width="1"/>
+  <rect x="489" y="354" width="35" height="28" rx="3" fill="#f2c94c" stroke="#c49a1e" stroke-width="1"/>
+  <rect x="445" y="390" width="35" height="28" rx="3" fill="#f2c94c" stroke="#c49a1e" stroke-width="1"/>
+  <rect x="489" y="390" width="35" height="28" rx="3" fill="#f2c94c" stroke="#c49a1e" stroke-width="1"/>
+  <rect x="445" y="426" width="35" height="28" rx="3" fill="#f2c94c" stroke="#c49a1e" stroke-width="1"/>
+  <rect x="489" y="426" width="35" height="28" rx="3" fill="#f2c94c" stroke="#c49a1e" stroke-width="1"/>
+  <text x="462" y="372" text-anchor="middle" class="tiny">R1</text>
+  <text x="506" y="372" text-anchor="middle" class="tiny">R2</text>
+  <text x="462" y="408" text-anchor="middle" class="tiny">R3</text>
+  <text x="506" y="408" text-anchor="middle" class="tiny">R4</text>
+  <text x="462" y="444" text-anchor="middle" class="tiny">R5</text>
+  <text x="506" y="444" text-anchor="middle" class="tiny">R6</text>
+  <rect x="334" y="458" width="52" height="8" fill="#24383a"/>
+  <rect x="395" y="458" width="52" height="8" fill="#24383a"/>
+  <rect x="456" y="458" width="75" height="8" fill="#24383a"/>
+  <text x="360" y="480" text-anchor="middle" class="tiny">RS-485</text>
+  <text x="421" y="480" text-anchor="middle" class="tiny">sensors</text>
+  <text x="494" y="480" text-anchor="middle" class="tiny">24 V / relays</text>
   <path d="M433 262 V343" class="wire-low" marker-end="url(#arrow-low)"/>
   <text x="446" y="302" class="tiny">24 V DC</text>
 
