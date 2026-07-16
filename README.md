@@ -12,6 +12,11 @@ Pair it with Apple Home, Alexa, Google Home, or another Matter controller and
 run your pool gear from the same place as the rest of your home. There is no
 cloud account, subscription, or internet connection required after setup.
 
+![Sample panel wiring](docs/images/sample-panel-wiring.svg)
+
+This is a sample layout for planning the panel. Match the contactors, wire
+sizes, breakers, and equipment connections to the gear you are actually using.
+
 **Jump to:** [Shopping list](#shopping-list) | [Build the panel](#build-the-panel) |
 [Firmware setup](#firmware-setup) | [Flash and pair](#flash-and-pair) |
 [Serial commands](#serial-commands)
