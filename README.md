@@ -51,7 +51,7 @@ flowchart LR
 | VEVOR weatherproof junction box | A 13.78 x 9.84 x 5.90 inch box that fits the build well. Do not go smaller than 11 x 8 inches. | [VEVOR](https://www.vevor.com/electrical-enclosure-c_10749/vevor-outdoor-electrical-junction-box-13-78-x-9-84-x-5-90-in-abs-plastic-electrical-enclosure-box-with-hinged-cover-stainless-steel-latch-ip67-dustproof-waterproof-for-outdoor-electrical-projects-p_010661475587) |
 | Two 35 mm DIN rails | One is for the low-voltage side and controller wiring. The other is for your contactors and 120 V / 240 V wiring. | [Amazon](https://www.amazon.com/s?k=35mm+DIN+rail) |
 | 24 V, 2.5 A DIN-rail power supply | Powers the ESP32 relay board, contactor coils, and 24 V gear like valves. | [Amazon](https://www.amazon.com/HDR-60-24-Step-Shape-Supply-24Volt-2-5Amp/dp/B0CLGRMKBM) |
-| 18/10 sprinkler cable | Great for sensors and 24 V relay-control wiring. It is thicker than Ethernet and gives you extra conductors to work with. | [Amazon](https://www.amazon.com/s?k=18%2F10+sprinkler+cable) |
+| 18/10 sprinkler cable | Great for sensors and 24 V relay-control wiring. It is thicker than Ethernet and gives you extra conductors to work with. | [Amazon](https://www.amazon.com/s?k=18%2F10+sprinkler+cable) or [Lowe's](https://www.lowes.com/pd/Southwire-18-10-Jacketed-Sprinkler-Wire-By-the-Foot/50148250) |
 | Contactors | Use a **DC 24 V coil, normally open, 2-pole DIN contactor**. It needs to be DC and normally open, so it turns off when 24 V is removed. | [Amazon](https://www.amazon.com/Heschen-Household-Contactor-CT1-16-Normally/dp/B0CXH9RBGM) |
 | RS-485 wiring for the pump | Connects the controller to the Pentair pump communication bus. | [Amazon](https://www.amazon.com/s?k=RS-485+wire+Pentair+IntelliFlo) |
 
