@@ -60,16 +60,21 @@ flowchart LR
 You do not need any sensors for the controller to work. Add one, all three, or
 none at all.
 
-You can add other kinds of sensors too. The public firmware is meant to be
-changed; the [sensor development guide](docs/SENSOR_DEVELOPMENT.md) walks
-through adding a new sensor type from GPIO wiring through its Matter endpoint.
-
 | Sensor | What to check | Where to get it |
 | --- | --- | --- |
 | Water temperature | A [DS18B20](https://www.analog.com/en/products/ds18b20.html) one-wire probe. | [Amazon: waterproof DS18B20 temperature sensor](https://www.amazon.com/s?k=waterproof+DS18B20+temperature+sensor) |
 | Water level | A low-voltage dry-contact switch; the [Flowline Switch-Tek LV10](https://www.flowline.com/product/switch-tek-lv10-vertical-buoyancy-liquid-level-switch/) is a useful reference. | [Amazon: vertical float switch 24V dry contact](https://www.amazon.com/s?k=vertical+float+switch+24V+dry+contact) |
 | Water flow | Rated for your plumbing and pressure; the [Gems FS-550](https://www.gemssensors.com/products/FS-550/30640) shows the kind of switch to look for. | [Amazon: inline water flow switch 24V dry contact](https://www.amazon.com/s?k=inline+water+flow+switch+24V+dry+contact) |
+
+You can add other kinds of sensors too. The public firmware is meant to be
+changed; the [sensor development guide](docs/SENSOR_DEVELOPMENT.md) walks
+through adding a new sensor type from GPIO wiring through its Matter endpoint. The sensors below are possible, but I haven't had a need to them implement yet:
+
+
+| Sensor | What to check | Where to get it |
+| --- | --- | --- |
 | pH | An analog pH kit that you can read with an ADC-capable input and calibrate in the driver. | [DFRobot Gravity industrial analog pH meter](https://www.dfrobot.com/product-1110.html) |
+| ORP | An analog ORP kit that you can read to tell water cleanliness. [Although, ORP and it's effectiveness are highly contested in the pool community](https://www.troublefreepool.com/threads/understanding-orp.33410/) | [DFRobot Gravity industrial analog ORP meter](https://www.dfrobot.com/product-2446.html) |
 
 ## Build the Panel
 
