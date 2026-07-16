@@ -1,16 +1,31 @@
 # Matter Pool Controller
 
-Local-first ESP32-S3 firmware for a pool-equipment controller. It presents a
-Pentair IntelliFlo-compatible pump, six relay channels, and optional sensors as
-Matter bridged devices for platforms such as Apple Home.
+An open-source, local-only ESP32-S3 Matter bridge for pool equipment. It
+controls a Pentair IntelliFlo-compatible pump, six relay channels, and optional
+sensors through platforms such as Apple Home.
 
-This project has no cloud synchronization, remote logging, telemetry upload, or
-over-the-air update client. It communicates only with local hardware and the
-Matter fabric that commissions it.
+## Buy or Build
 
-Want a finished Pool Conductor controller instead of building your own? Visit
-[poolconductor.com](https://poolconductor.com) for device availability and the
-hosted product experience.
+### Buy Pool Conductor
+
+The finished [Pool Conductor device](https://poolconductor.com) is for owners
+who want the controller without sourcing hardware, configuring a toolchain, or
+maintaining the installation themselves. It adds the hosted experience around
+the local controller:
+
+- A web dashboard for pump status, relay control, and equipment configuration.
+- Historical energy, circulation, and temperature information.
+- Remote firmware updates and on-demand diagnostic logs.
+- A ready-to-install controller instead of a DIY hardware build.
+
+Visit [poolconductor.com](https://poolconductor.com) for availability.
+
+### Build Local-Only
+
+This repository is the [local-only controller firmware](https://github.com/evantobin/matter-pool-controller).
+It has no cloud synchronization, telemetry upload, remote logging, or over-the-air
+update client. Commands stay between the controller and the Matter fabric that
+commissions it.
 
 ## Hardware
 
