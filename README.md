@@ -33,16 +33,16 @@ energizing equipment. This firmware starts with every relay off.
 - **Controller:** [Waveshare ESP32-S3 Relay 6CH](https://www.waveshare.com/product/esp32-s3-relay-6ch.htm)
   is the board this project targets. Its onboard RS-485 terminal connects to
   the pump bus.
-- **Temperature probe:** [DS18B20](https://www.analog.com/en/products/ds18b20.html)
-  one-wire digital temperature sensor. Use a waterproof probe suitable for the
-  measurement location.
-- **Water-level switch:** A low-voltage, dry-contact float switch. The
-  [Flowline Switch-Tek LV10](https://www.flowline.com/product/switch-tek-lv10-vertical-buoyancy-liquid-level-switch/)
-  is one example of this style of sensor.
-- **Flow switch:** A low-voltage, dry-contact flow switch. The
-  [Gems FS-550 family](https://www.gemssensors.com/products/FS-550/30640) is
-  one example; select a model rated for the plumbing, pressure, and fluid in
-  your installation.
+- **Temperature probe:** Search Amazon for `waterproof DS18B20 temperature
+  sensor`. Confirm it uses the DS18B20 one-wire sensor against the
+  [manufacturer specification](https://www.analog.com/en/products/ds18b20.html).
+- **Water-level switch:** Search Amazon for `vertical float switch 24V dry
+  contact`. It must be a low-voltage dry-contact switch; compare its listing to
+  the [Flowline Switch-Tek LV10 specification](https://www.flowline.com/product/switch-tek-lv10-vertical-buoyancy-liquid-level-switch/).
+- **Flow switch:** Search Amazon for `inline water flow switch 24V dry
+  contact`. Select a model rated for the plumbing, pressure, and fluid in your
+  installation; use the [Gems FS-550 specification](https://www.gemssensors.com/products/FS-550/30640)
+  as a reference for this type of switch.
 
 The sensor inputs are for low-voltage sensors only. Use equipment appropriate
 for pool installations and have mains-voltage work, including contactor
