@@ -101,6 +101,18 @@ works nicely. It is thicker than Ethernet and has plenty of conductors for
 things like flow switches, float switches, temperature probes, and
 low-voltage valve or contactor coils.
 
+### Give yourself room in the box
+
+Get a weatherproof electrical enclosure at least 11 x 8 inches. A VEVOR-style
+weather-resistant junction box around 13.78 x 9.84 x 5.90 inches is a good
+size. It gives you room for two DIN rails: one side for the low-voltage relay
+and controller wiring, and the other for the contactors and their wiring.
+
+You will also want a small DIN-rail 120 V to 24 V power supply to run contactor
+coils and low-voltage gear like valves. This
+[24 V, 2.5 A DIN-rail supply](https://www.amazon.com/HDR-60-24-Step-Shape-Supply-24Volt-2-5Amp/dp/B0CLGRMKBM)
+is the kind of unit that fits this build.
+
 ## Sensors
 
 You do not need any sensors for the controller to work. Add one, all three, or
