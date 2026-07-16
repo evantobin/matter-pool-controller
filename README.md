@@ -8,6 +8,10 @@ This project has no cloud synchronization, remote logging, telemetry upload, or
 over-the-air update client. It communicates only with local hardware and the
 Matter fabric that commissions it.
 
+Want a finished Pool Conductor controller instead of building your own? Visit
+[poolconductor.com](https://poolconductor.com) for device availability and the
+hosted product experience.
+
 ## Hardware
 
 The current board target is the Waveshare ESP32-S3 Relay 6CH. Pin assignments
