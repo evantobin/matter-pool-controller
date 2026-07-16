@@ -68,8 +68,7 @@ none at all.
 
 You can add other kinds of sensors too. The public firmware is meant to be
 changed; the [sensor development guide](docs/SENSOR_DEVELOPMENT.md) walks
-through adding a new sensor type from GPIO wiring through its Matter endpoint. The sensors below are possible, but I haven't had a need to them implement yet:
-
+through adding a new sensor type from GPIO wiring through its Matter endpoint. The sensors below are possible, but I haven't had a need to implement them yet:
 
 | Sensor | What to check | Where to get it |
 | --- | --- | --- |
