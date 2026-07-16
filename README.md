@@ -1,101 +1,142 @@
 # Matter Pool Controller
 
-An open-source, local-only ESP32-S3 Matter bridge for pool equipment. It
-controls a Pentair IntelliFlo-compatible pump, six relay channels, and optional
-sensors through platforms such as Apple Home.
+> Local-first ESP32-S3 firmware that brings a Pentair IntelliFlo-compatible
+> pump, relay-controlled equipment, and pool sensors into Matter.
 
-This repository has no cloud synchronization, telemetry upload, remote logging,
-or over-the-air update client. Commands stay between the controller and the
-Matter fabric that commissions it.
-
-## Hardware
-
-The current board target is the
+This is the firmware for a DIY pool-equipment controller built around the
 [Waveshare ESP32-S3 Relay 6CH](https://www.waveshare.com/product/esp32-s3-relay-6ch.htm).
-It combines the ESP32-S3 microcontroller, six relays, and an RS-485 interface.
-Pin assignments are defined in `main/board/board_pins.h`:
+It appears to Apple Home and other Matter platforms as one bridge with a pump,
+six relay channels, and optional temperature, water-level, and flow sensors.
 
-- RS-485 pump bus: RX GPIO 18, TX GPIO 17
-- Relay outputs: GPIO 46, 45, 42, 41, 2, and 1
-- Sensor inputs: GPIO 4, 5, 6, and 7
-- Boot button: GPIO 0
-- Buzzer: GPIO 21
-- RGB status LED: GPIO 38
+There is no cloud synchronization, telemetry upload, remote logging, or OTA
+update client. Commands stay between the controller and the Matter fabric that
+commissions it.
 
-Use the onboard relay channels only for 24 V or lower control circuits. For a
-saltwater chlorine generator, pump, heater, or any other mains-voltage load,
-use a properly rated external contactor and have its coil controlled by the
-controller relay. Verify wiring, relay polarity, and pump protocol before
-energizing equipment. This firmware starts with every relay off.
+**Contents:** [What it does](#what-it-does) · [Quick start](#quick-start) ·
+[Hardware and wiring](#hardware-and-wiring) · [Commissioning](#commissioning) ·
+[Safety](#safety) · [Project layout](#project-layout) · [Support development](#support-development)
 
-### Hardware References
+## What It Does
 
-- **Controller:** [Waveshare ESP32-S3 Relay 6CH](https://www.waveshare.com/product/esp32-s3-relay-6ch.htm)
-  is the board this project targets. Its onboard RS-485 terminal connects to
-  the pump bus.
-- **Temperature probe:** Search Amazon for `waterproof DS18B20 temperature
-  sensor`. Confirm it uses the DS18B20 one-wire sensor against the
-  [manufacturer specification](https://www.analog.com/en/products/ds18b20.html).
-- **Water-level switch:** Search Amazon for `vertical float switch 24V dry
-  contact`. It must be a low-voltage dry-contact switch; compare its listing to
-  the [Flowline Switch-Tek LV10 specification](https://www.flowline.com/product/switch-tek-lv10-vertical-buoyancy-liquid-level-switch/).
-- **Flow switch:** Search Amazon for `inline water flow switch 24V dry
-  contact`. Select a model rated for the plumbing, pressure, and fluid in your
-  installation; use the [Gems FS-550 specification](https://www.gemssensors.com/products/FS-550/30640)
-  as a reference for this type of switch.
-
-The sensor inputs are for low-voltage sensors only. Use equipment appropriate
-for pool installations and have mains-voltage work, including contactor
-installation, completed by a qualified electrician.
-
-## Matter Devices
-
-The controller appears as a Matter bridge with these bridged devices:
-
-- One dimmable plug-in unit for pump speed, expressed as a percentage of the
+- Controls a Pentair IntelliFlo-compatible variable-speed pump over RS-485.
+- Exposes pump speed as a Matter dimmable plug-in unit, scaled to the
   configured RPM range.
-- Six on/off plug-in units for relay channels.
-- Contact sensors for water level and flow.
-- A temperature sensor for an optional DS18B20.
+- Exposes six relay channels as Matter on/off plug-in units.
+- Supports optional dry-contact water-level and flow switches, plus DS18B20
+  temperature probes.
+- Includes a serial recovery console and a physical factory-reset path.
+- Starts with every relay inactive and turns relays off before factory reset.
 
-Relay channels are enabled locally by default. Sensor types are disabled until
-you configure them in source for the hardware connected to each input.
+```mermaid
+flowchart LR
+  Home["Matter home platform"] <-->|"Matter over Wi-Fi"| Bridge["ESP32-S3 bridge"]
+  Bridge <-->|"RS-485"| Pump["Pentair pump"]
+  Bridge --> Relays["24 V control relays"]
+  Sensors["Flow, level, temperature"] --> Bridge
+  Relays --> Contactors["External contactors"]
+  Contactors --> Equipment["SWG, heater, lights, etc."]
+```
 
-## Before Flashing
+## Quick Start
 
-Edit `main/board/board_identity.h` for each physical controller. In particular,
-change `BOARD_DEVICE_ID`, the Matter setup PIN, and discriminator. The included
-values are development defaults and must not be reused across devices exposed to
-untrusted people or networks.
+### 1. Gather the hardware
 
-The Matter vendor and product IDs in `main/matter/matter_setup.cpp` are development
-placeholders. Obtain and use assigned IDs before distributing a commercial
-product.
+You will need the [Waveshare ESP32-S3 Relay 6CH](https://www.waveshare.com/product/esp32-s3-relay-6ch),
+an RS-485 connection to the compatible pump, and any sensors or external
+contactors required by your installation. See [Hardware and wiring](#hardware-and-wiring)
+before connecting equipment.
 
-## Build
+### 2. Install the toolchain
 
-This project targets ESP-IDF 6.0.2 with esp-matter installed separately. Set up
-ESP-IDF and esp-matter, then source the included environment helper:
+This project targets ESP-IDF 6.0.2 with esp-matter installed separately. The
+included environment helper assumes these locations:
+
+```text
+~/.espressif/v6.0.2/esp-idf
+~/esp/esp-matter
+```
+
+Change `env.sh` if your SDKs live elsewhere, then source it from the project
+root:
 
 ```sh
 . ./env.sh
+```
+
+### 3. Set the controller identity
+
+Edit `main/board/board_identity.h` before flashing each physical controller.
+Set a unique `BOARD_DEVICE_ID`, Matter setup PIN, and discriminator. Do not
+reuse the included development defaults on an untrusted network or for a device
+that will be handed to someone else.
+
+The Matter vendor and product IDs in `main/matter/matter_setup.cpp` are also
+development placeholders. Obtain assigned IDs before distributing a commercial
+product.
+
+### 4. Build and flash
+
+```sh
 idf.py set-target esp32s3
 idf.py build
 idf.py flash monitor
 ```
 
-`env.sh` assumes ESP-IDF at `~/.espressif/v6.0.2/esp-idf` and esp-matter at
-`~/esp/esp-matter`; adjust it for your installation. ESP-IDF resolves the sole
-third-party component declared in `main/idf_component.yml` during configuration.
+On the first boot, use the displayed Matter pairing information to commission
+the bridge into your preferred Matter platform.
 
-## Serial Console
+## Hardware and Wiring
 
-At the serial prompt:
+### Board connections
 
-- `help` lists commands.
-- `matter-info` prints commissioning information.
-- `reset` reboots without clearing configuration.
-- `factory-reset` clears Matter state and reboots.
+The board-specific assignments live in `main/board/board_pins.h`.
+
+| Connection | Pins |
+| --- | --- |
+| RS-485 pump bus | RX GPIO 18, TX GPIO 17 |
+| Relay outputs | GPIO 46, 45, 42, 41, 2, 1 |
+| Sensor inputs | GPIO 4, 5, 6, 7 |
+| Boot button | GPIO 0 |
+| Buzzer | GPIO 21 |
+| RGB status LED | GPIO 38 |
+
+### Sensor references
+
+| Purpose | Amazon search | What to verify |
+| --- | --- | --- |
+| Temperature | `waterproof DS18B20 temperature sensor` | It uses the [DS18B20 one-wire sensor](https://www.analog.com/en/products/ds18b20.html). |
+| Water level | `vertical float switch 24V dry contact` | It is a low-voltage dry-contact switch; compare with the [Flowline Switch-Tek LV10 specification](https://www.flowline.com/product/switch-tek-lv10-vertical-buoyancy-liquid-level-switch/). |
+| Flow | `inline water flow switch 24V dry contact` | It is rated for your plumbing, pressure, and fluid; use the [Gems FS-550 specification](https://www.gemssensors.com/products/FS-550/30640) as a reference. |
+
+For low-voltage field sensor runs, 18/10 direct-burial sprinkler cable is a
+practical choice when its printed voltage and environmental ratings match the
+installation. Do not treat sprinkler cable as a universal mains-voltage cable.
+
+## Commissioning
+
+At the serial prompt, use these commands during installation and service:
+
+| Command | Result |
+| --- | --- |
+| `help` | Lists available commands. |
+| `matter-info` | Prints Matter commissioning information. |
+| `reset` | Reboots without clearing configuration. |
+| `factory-reset` | Turns relays off, clears Matter configuration, and reboots. |
+
+## Safety
+
+Pool equipment combines water, mains power, and high-current loads. Treat this
+controller as low-voltage control hardware, not as a mains switching panel.
+
+- Use the onboard relay channels only for 24 V or lower control circuits.
+- Use a properly rated external contactor for a saltwater chlorine generator,
+  pump, heater, lights, or any other mains-voltage load. The controller relay
+  should switch the contactor coil, not the load.
+- Sensor inputs are for low-voltage sensors only.
+- Verify relay polarity, RS-485 pump wiring, and the pump protocol with
+  equipment disconnected where practical.
+- Have all mains-voltage and contactor work completed by a qualified
+  electrician and follow local electrical and pool-equipment requirements.
 
 ## Project Layout
 
@@ -107,24 +148,22 @@ main/io/              Relays, sensors, LED/buzzer, and reset button
 main/matter/          Matter bridge and endpoint setup
 main/platform/        ESP-IDF compatibility workarounds
 main/pump/            Pentair protocol and pump control
-main/README.md        Module ownership and dependency direction
 docs/ARCHITECTURE.md  Runtime flow, boundaries, and safety model
-partitions.csv        Single-app, non-OTA flash layout
-sdkconfig.defaults    ESP-IDF project defaults
 ```
 
-## Security Notes
+The [module guide](main/README.md) describes ownership boundaries; the
+[architecture guide](docs/ARCHITECTURE.md) explains runtime flow and safety
+decisions.
 
-Do not commit certificates, private keys, generated `sdkconfig`, or build
-outputs. The repository `.gitignore` excludes those files along with local
-component caches. Keep the controller on a trusted network and use the physical
-factory-reset action to remove an existing Matter fabric before transferring it.
+## Security and Contributions
 
-## Contributing
+Do not commit certificates, private keys, generated `sdkconfig`, build outputs,
+or device-specific commissioning values. Keep the controller on a trusted
+network and use the physical factory-reset action before transferring it.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development and pull-request guidance,
-[SECURITY.md](SECURITY.md) for responsible vulnerability reporting, and
-[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for module boundaries.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request, and use
+[SECURITY.md](SECURITY.md) for responsible vulnerability reports. The project
+also includes a [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Support Development
 
