@@ -118,6 +118,23 @@ For low-voltage field sensor runs, 18/10 direct-burial sprinkler cable is a
 practical choice when its printed voltage and environmental ratings match the
 installation. Do not treat sprinkler cable as a universal mains-voltage cable.
 
+### Configure sensors locally
+
+The public firmware configures sensors at build time; it has no cloud account
+or local web settings page. Edit `main/board/board_sensor_config.h`, set the
+appropriate port to `WaterLevelSwitch`, `FlowSwitch`, or `TemperatureDs18b20`,
+then rebuild and flash the controller. Leave a port as `Disabled` when unused.
+
+For example, to use the second sensor port as a flow switch with pump relay
+lockout, change its entry to:
+
+```cpp
+{Type::FlowSwitch, "Pump Flow", true},
+```
+
+Use only one port for each sensor type. A flow lockout stops relay actions when
+the configured dry-contact flow switch is open.
+
 ## Commissioning
 
 At the serial prompt, use these commands during installation and service:

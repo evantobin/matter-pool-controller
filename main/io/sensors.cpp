@@ -16,6 +16,7 @@
 
 #include "app/state.h"
 #include "board/board_pins.h"
+#include "board/board_sensor_config.h"
 
 static const char *TAG = "sensors";
 
@@ -228,9 +229,27 @@ static float ds18b20_read(gpio_num_t pin) {
 
 // ---------- Sensor setup ----------
 
+static SensorType toSensorType(BoardSensorConfig::Type type) {
+  switch (type) {
+    case BoardSensorConfig::Type::WaterLevelSwitch:
+      return SensorType::WaterLevelSwitch;
+    case BoardSensorConfig::Type::FlowSwitch:
+      return SensorType::FlowSwitch;
+    case BoardSensorConfig::Type::TemperatureDs18b20:
+      return SensorType::TemperatureDs18b20;
+    case BoardSensorConfig::Type::Disabled:
+    default:
+      return SensorType::Disabled;
+  }
+}
+
 void setupSensors() {
   for (uint8_t i = 0; i < BoardPins::SensorCount; i++) {
-    sensorConfigs[i].name = "Sensor " + std::to_string(i + 1);
+    const BoardSensorConfig::Config &boardConfig = BoardSensorConfig::Sensors[i];
+    sensorConfigs[i].type = toSensorType(boardConfig.type);
+    sensorConfigs[i].enabled = sensorConfigs[i].type != SensorType::Disabled;
+    sensorConfigs[i].name = boardConfig.name;
+    sensorConfigs[i].lockoutEnabled = boardConfig.flowLockoutEnabled;
     sensorInputs[i].begin(BoardPins::SensorPins[i]);
   }
 }
