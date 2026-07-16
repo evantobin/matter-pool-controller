@@ -105,6 +105,9 @@ The board-specific assignments live in `main/board/board_pins.h`.
 
 ### Sensor references
 
+All sensors are optional. The controller can run with no sensors attached, and
+each temperature, water-level, and flow input can be added independently.
+
 | Purpose | Amazon search | What to verify |
 | --- | --- | --- |
 | Temperature | `waterproof DS18B20 temperature sensor` | It uses the [DS18B20 one-wire sensor](https://www.analog.com/en/products/ds18b20.html). |
