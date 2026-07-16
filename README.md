@@ -131,6 +131,9 @@ they are installed here:
 ~/esp/esp-matter
 ```
 
+Install [ESP-IDF for the ESP32-S3](https://docs.espressif.com/projects/esp-idf/en/v6.0/esp32s3/get-started/index.html)
+first, then follow Espressif's [esp-matter setup guide](https://docs.espressif.com/projects/esp-matter/en/latest/esp32s3/developing.html).
+
 If yours live somewhere else, update `env.sh`. Then, from this folder:
 
 ```sh
