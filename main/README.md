@@ -15,3 +15,5 @@ they own rather than by when they happened to be created.
 
 New code should depend toward the hardware: Matter calls the pump and I/O
 interfaces, but those lower-level modules should not include Matter setup code.
+See [the sensor development guide](../docs/SENSOR_DEVELOPMENT.md) for the
+specific path for adding a new sensor type.

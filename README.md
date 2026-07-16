@@ -60,6 +60,10 @@ flowchart LR
 You do not need any sensors for the controller to work. Add one, all three, or
 none at all.
 
+You can add other kinds of sensors too. The public firmware is meant to be
+changed; the [sensor development guide](docs/SENSOR_DEVELOPMENT.md) walks
+through adding a new sensor type from GPIO wiring through its Matter endpoint.
+
 | Sensor | What to check | Where to get it |
 | --- | --- | --- |
 | Water temperature | A [DS18B20](https://www.analog.com/en/products/ds18b20.html) one-wire probe. | [Amazon: waterproof DS18B20 temperature sensor](https://www.amazon.com/s?k=waterproof+DS18B20+temperature+sensor) |
