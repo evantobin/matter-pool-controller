@@ -80,9 +80,10 @@ you are adding.
 
 Keep the board relays on the low-voltage side of the job. They are for 24 V
 control circuits, control inputs, and contactor coils. For anything that runs
-on mains power, like an SWG, pump, heater, or landscape transformer, use the
-right external contactor or control input for that equipment. The controller
-tells that gear what to do; it does not carry its 120 V or 240 V load.
+on 120 V or 240 V, like an SWG, pump, heater, or landscape transformer, use
+the right external contactor or control input for that equipment. The
+controller tells that gear what to do; it does not carry the 120 V or 240 V
+load.
 
 ### Board wiring
 

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
   <title id="title">Sample Pool Controller Panel Wiring</title>
-  <desc id="desc">A sample panel showing mains feeding a 24 volt DIN power supply and contactors. The 24 volt supply powers the ESP32 controller and contactor coils. The controller connects to a Pentair pump over RS-485 and to optional sensors.</desc>
+  <desc id="desc">A sample panel with a separate 120 volt line for the 24 volt DIN power supply and a 240 volt line through contactors to pool equipment. The 24 volt positive supply feeds the relay common terminals and the negative supply returns directly to contactor coils and other devices.</desc>
   <style>
     .title { font: 700 28px Arial, sans-serif; fill: #172a2c; }
     .subtitle { font: 16px Arial, sans-serif; fill: #53686b; }
@@ -10,15 +10,15 @@
     .tiny { font: 12px Arial, sans-serif; fill: #53686b; }
     .box { fill: #ffffff; stroke: #9aaeb0; stroke-width: 2; rx: 8; }
     .low-box { fill: #eef8f7; stroke: #4b9b98; stroke-width: 2; rx: 8; }
-    .mains-box { fill: #fff5ef; stroke: #c66d42; stroke-width: 2; rx: 8; }
+    .line-box { fill: #fff5ef; stroke: #c66d42; stroke-width: 2; rx: 8; }
     .wire-low { fill: none; stroke: #227d89; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-    .wire-mains { fill: none; stroke: #be6036; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .wire-line { fill: none; stroke: #be6036; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
     .wire-data { fill: none; stroke: #6877b6; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 7 6; }
     .wire-sensor { fill: none; stroke: #648543; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
   </style>
   <defs>
     <marker id="arrow-low" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#227d89"/></marker>
-    <marker id="arrow-mains" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#be6036"/></marker>
+    <marker id="arrow-line" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#be6036"/></marker>
     <marker id="arrow-data" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#6877b6"/></marker>
     <marker id="arrow-sensor" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#648543"/></marker>
   </defs>
@@ -30,14 +30,18 @@
   <rect x="38" y="105" width="770" height="590" rx="14" fill="#f3fbfa" stroke="#b6d7d5" stroke-width="2"/>
   <text x="62" y="136" class="zone" fill="#247e7b">INSIDE THE WEATHERPROOF ENCLOSURE</text>
 
-  <rect x="62" y="168" width="190" height="94" class="mains-box"/>
-  <text x="157" y="204" text-anchor="middle" class="label">Mains feed</text>
-  <text x="157" y="227" text-anchor="middle" class="small">120 / 240 V AC</text>
+  <rect x="62" y="168" width="190" height="94" class="line-box"/>
+  <text x="157" y="204" text-anchor="middle" class="label">120 V line</text>
+  <text x="157" y="227" text-anchor="middle" class="small">feeds the 24 V supply</text>
 
-  <rect x="328" y="168" width="210" height="94" class="mains-box"/>
+  <rect x="328" y="168" width="210" height="94" class="line-box"/>
   <text x="433" y="204" text-anchor="middle" class="label">24 V DIN supply</text>
   <text x="433" y="227" text-anchor="middle" class="small">powers the low-voltage side</text>
-  <path d="M252 215 H328" class="wire-mains" marker-end="url(#arrow-mains)"/>
+  <path d="M252 215 H328" class="wire-line" marker-end="url(#arrow-line)"/>
+
+  <rect x="62" y="300" width="190" height="74" class="line-box"/>
+  <text x="157" y="331" text-anchor="middle" class="label">240 V line</text>
+  <text x="157" y="353" text-anchor="middle" class="small">feeds contactor inputs</text>
 
   <rect x="315" y="351" width="18" height="112" rx="4" fill="#202729"/>
   <rect x="533" y="351" width="18" height="112" rx="4" fill="#202729"/>
@@ -75,34 +79,36 @@
   <path d="M433 262 V343" class="wire-low" marker-end="url(#arrow-low)"/>
   <text x="446" y="302" class="tiny">24 V DC</text>
 
-  <path d="M538 215 H585 V303" class="wire-mains"/>
-  <path d="M585 303 H742" class="wire-mains"/>
-  <text x="596" y="292" class="tiny">load feed</text>
+  <path d="M252 337 H585 V347 H610" class="wire-line" marker-end="url(#arrow-line)"/>
+  <path d="M585 337 V440 H610" class="wire-line" marker-end="url(#arrow-line)"/>
+  <path d="M585 337 V533 H610" class="wire-line" marker-end="url(#arrow-line)"/>
 
   <rect x="610" y="332" width="142" height="66" class="box"/>
-  <text x="681" y="360" text-anchor="middle" class="label">Contactor 1</text>
-  <text x="681" y="382" text-anchor="middle" class="small">SWG</text>
+  <text x="681" y="356" text-anchor="middle" class="label">Contactor 1</text>
+  <text x="681" y="376" text-anchor="middle" class="small">SWG | 24 V coil</text>
   <rect x="610" y="425" width="142" height="66" class="box"/>
-  <text x="681" y="453" text-anchor="middle" class="label">Contactor 2</text>
-  <text x="681" y="475" text-anchor="middle" class="small">Pool heater</text>
+  <text x="681" y="449" text-anchor="middle" class="label">Contactor 2</text>
+  <text x="681" y="469" text-anchor="middle" class="small">Heater | 24 V coil</text>
   <rect x="610" y="518" width="142" height="66" class="box"/>
-  <text x="681" y="546" text-anchor="middle" class="label">Contactor 3</text>
-  <text x="681" y="568" text-anchor="middle" class="small">Landscape lights</text>
+  <text x="681" y="542" text-anchor="middle" class="label">Contactor 3</text>
+  <text x="681" y="562" text-anchor="middle" class="small">Lights | 24 V coil</text>
 
-  <path d="M541 375 H575 V365 H610" class="wire-low" marker-end="url(#arrow-low)"/>
-  <path d="M541 407 H575 V458 H610" class="wire-low" marker-end="url(#arrow-low)"/>
-  <path d="M541 439 H575 V551 H610" class="wire-low" marker-end="url(#arrow-low)"/>
-  <text x="554" y="337" class="tiny">24 V relay control</text>
+  <path d="M541 375 H575 V385 H610" class="wire-low" marker-end="url(#arrow-low)"/>
+  <path d="M541 407 H575 V478 H610" class="wire-low" marker-end="url(#arrow-low)"/>
+  <path d="M541 439 H575 V571 H610" class="wire-low" marker-end="url(#arrow-low)"/>
+  <text x="440" y="499" text-anchor="middle" class="tiny">24 V + to COM (middle relay terminal)</text>
+  <text x="564" y="320" class="tiny">relay NO to coil +</text>
+  <text x="681" y="610" text-anchor="middle" class="tiny">24 V - straight to each coil / device</text>
 
-  <path d="M752 365 H850" class="wire-mains" marker-end="url(#arrow-mains)"/>
-  <path d="M752 458 H850" class="wire-mains" marker-end="url(#arrow-mains)"/>
-  <path d="M752 551 H850" class="wire-mains" marker-end="url(#arrow-mains)"/>
+  <path d="M752 347 H850" class="wire-line" marker-end="url(#arrow-line)"/>
+  <path d="M752 440 H850" class="wire-line" marker-end="url(#arrow-line)"/>
+  <path d="M752 533 H850" class="wire-line" marker-end="url(#arrow-line)"/>
 
-  <rect x="890" y="332" width="250" height="66" class="mains-box"/>
+  <rect x="890" y="332" width="250" height="66" class="line-box"/>
   <text x="1015" y="371" text-anchor="middle" class="label">Saltwater generator</text>
-  <rect x="890" y="425" width="250" height="66" class="mains-box"/>
+  <rect x="890" y="425" width="250" height="66" class="line-box"/>
   <text x="1015" y="464" text-anchor="middle" class="label">Pool heater</text>
-  <rect x="890" y="518" width="250" height="66" class="mains-box"/>
+  <rect x="890" y="518" width="250" height="66" class="line-box"/>
   <text x="1015" y="557" text-anchor="middle" class="label">Landscape lights</text>
 
   <rect x="52" y="530" width="190" height="72" class="box"/>
@@ -115,8 +121,8 @@
   <path d="M242 647 H290 V456 H325" class="wire-sensor" marker-end="url(#arrow-sensor)"/>
 
   <rect x="38" y="712" width="1102" height="28" rx="6" fill="#e8f0f0"/>
-  <line x1="62" y1="726" x2="92" y2="726" class="wire-mains"/><text x="101" y="731" class="tiny">mains / load wiring</text>
-  <line x1="270" y1="726" x2="300" y2="726" class="wire-low"/><text x="309" y="731" class="tiny">24 V control wiring</text>
+  <line x1="62" y1="726" x2="92" y2="726" class="wire-line"/><text x="101" y="731" class="tiny">120 V / 240 V wiring</text>
+  <line x1="270" y1="726" x2="300" y2="726" class="wire-low"/><text x="309" y="731" class="tiny">24 V power and control</text>
   <line x1="476" y1="726" x2="506" y2="726" class="wire-data"/><text x="515" y="731" class="tiny">RS-485</text>
   <line x1="632" y1="726" x2="662" y2="726" class="wire-sensor"/><text x="671" y="731" class="tiny">sensor wiring</text>
 </svg>
