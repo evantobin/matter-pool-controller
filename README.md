@@ -4,33 +4,16 @@ An open-source, local-only ESP32-S3 Matter bridge for pool equipment. It
 controls a Pentair IntelliFlo-compatible pump, six relay channels, and optional
 sensors through platforms such as Apple Home.
 
-## Buy or Build
-
-### Buy Pool Conductor
-
-The finished [Pool Conductor device](https://poolconductor.com) is for owners
-who want the controller without sourcing hardware, configuring a toolchain, or
-maintaining the installation themselves. It adds the hosted experience around
-the local controller:
-
-- A web dashboard for pump status, relay control, and equipment configuration.
-- Historical energy, circulation, and temperature information.
-- Remote firmware updates and on-demand diagnostic logs.
-- A ready-to-install controller instead of a DIY hardware build.
-
-Visit [poolconductor.com](https://poolconductor.com) for availability.
-
-### Build Local-Only
-
-This repository is the [local-only controller firmware](https://github.com/evantobin/matter-pool-controller).
-It has no cloud synchronization, telemetry upload, remote logging, or over-the-air
-update client. Commands stay between the controller and the Matter fabric that
-commissions it.
+This repository has no cloud synchronization, telemetry upload, remote logging,
+or over-the-air update client. Commands stay between the controller and the
+Matter fabric that commissions it.
 
 ## Hardware
 
-The current board target is the Waveshare ESP32-S3 Relay 6CH. Pin assignments
-are defined in `main/board/board_pins.h`:
+The current board target is the
+[Waveshare ESP32-S3 Relay 6CH](https://www.waveshare.com/product/esp32-s3-relay-6ch.htm).
+It combines the ESP32-S3 microcontroller, six relays, and an RS-485 interface.
+Pin assignments are defined in `main/board/board_pins.h`:
 
 - RS-485 pump bus: RX GPIO 18, TX GPIO 17
 - Relay outputs: GPIO 46, 45, 42, 41, 2, and 1
@@ -41,6 +24,26 @@ are defined in `main/board/board_pins.h`:
 
 Verify your wiring, relay polarity, and pump protocol before connecting
 high-voltage equipment. This firmware starts with every relay off.
+
+### Hardware References
+
+- **Controller:** [Waveshare ESP32-S3 Relay 6CH](https://www.waveshare.com/product/esp32-s3-relay-6ch.htm)
+  is the board this project targets. Its onboard RS-485 terminal connects to
+  the pump bus.
+- **Temperature probe:** [DS18B20](https://www.analog.com/en/products/ds18b20.html)
+  one-wire digital temperature sensor. Use a waterproof probe suitable for the
+  measurement location.
+- **Water-level switch:** A low-voltage, dry-contact float switch. The
+  [Flowline Switch-Tek LV10](https://www.flowline.com/product/switch-tek-lv10-vertical-buoyancy-liquid-level-switch/)
+  is one example of this style of sensor.
+- **Flow switch:** A low-voltage, dry-contact flow switch. The
+  [Gems FS-550 family](https://www.gemssensors.com/products/FS-550/30640) is
+  one example; select a model rated for the plumbing, pressure, and fluid in
+  your installation.
+
+The sensor inputs are for low-voltage sensors only. Use equipment appropriate
+for pool installations and have mains-voltage work completed by a qualified
+electrician.
 
 ## Matter Devices
 
@@ -119,3 +122,11 @@ factory-reset action to remove an existing Matter fabric before transferring it.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development and pull-request guidance,
 [SECURITY.md](SECURITY.md) for responsible vulnerability reporting, and
 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for module boundaries.
+
+## Support Development
+
+This repository remains the complete local-only controller firmware. For a
+ready-to-install controller with a hosted dashboard, historical equipment data,
+remote firmware updates, and on-demand diagnostics, see
+[Pool Conductor](https://poolconductor.com). Choosing the finished controller
+helps fund continued work on the open-source firmware.
