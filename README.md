@@ -114,9 +114,10 @@ each temperature, water-level, and flow input can be added independently.
 | Water level | `vertical float switch 24V dry contact` | It is a low-voltage dry-contact switch; compare with the [Flowline Switch-Tek LV10 specification](https://www.flowline.com/product/switch-tek-lv10-vertical-buoyancy-liquid-level-switch/). |
 | Flow | `inline water flow switch 24V dry contact` | It is rated for your plumbing, pressure, and fluid; use the [Gems FS-550 specification](https://www.gemssensors.com/products/FS-550/30640) as a reference. |
 
-For low-voltage field sensor runs, 18/10 direct-burial sprinkler cable is a
-practical choice when its printed voltage and environmental ratings match the
-installation. Do not treat sprinkler cable as a universal mains-voltage cable.
+For connecting sensors and 24 V relay-control wiring, 18/10 sprinkler cable
+works nicely. It is thicker than Ethernet and has plenty of conductors for
+things like flow switches, float switches, temperature probes, and
+low-voltage valve or contactor coils.
 
 ### Configure sensors locally
 
