@@ -8,6 +8,7 @@ idf_component_register(
         "io/user_feedback.cpp"
         "matter/matter_setup.cpp"
         "platform/psa_init_patch.c"
+        "pump/jandy_pump.cpp"
         "pump/pentair_pump.cpp"
         "pump/pump_control.cpp"
     INCLUDE_DIRS "."
