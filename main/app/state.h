@@ -8,6 +8,7 @@
 
 #include "board/board_identity.h"
 #include "board/board_pins.h"
+#include "pump/pump_protocol.h"
 
 // Cross-module runtime model. Keep persistent configuration out of this header
 // and add new mutable state only when it is genuinely shared.
@@ -15,6 +16,8 @@
 
 static constexpr const char *FIRMWARE_VERSION = "0.2.0";
 static constexpr const char *DEVICE_ID = BOARD_DEVICE_ID;
+static constexpr PumpProtocolType PUMP_PROTOCOL = PumpProtocolType::Pentair;
+static constexpr uint8_t PUMP_ADDRESS = 96;
 static constexpr uint32_t STATUS_POLL_MS = 5000;
 static constexpr uint32_t PUMP_KEEPALIVE_MS = 5000;
 static constexpr uint32_t SENSOR_SAMPLE_MS = 100;

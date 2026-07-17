@@ -11,13 +11,9 @@
 #include <platform/CHIPDeviceLayer.h>
 
 #include "app/state.h"
-#include "pump/pentair_pump.h"
+#include "pump/pump_protocol.h"
 
 static const char *TAG = "pump";
-
-// Converts Matter-level on/off and dimmer requests into a maintained local pump
-// target, then reports observed pump state back to Matter.
-extern PentairPump pentairPump;
 
 static volatile bool pumpMatterReportActive = false;
 static uint8_t lastNonZeroPumpPercent = 45;
@@ -126,17 +122,16 @@ void schedulePumpMatterReport(bool running, uint8_t percent) {
 }
 
 static void sendPumpTarget(bool logTarget) {
-  pentairPump.setRemoteControl(true);
-  vTaskDelay(pdMS_TO_TICKS(50));
+  if (!pumpProtocol.setPower) return;
 
   if (targetPumpRunning) {
     if (targetPumpMode == PumpControlMode::Gpm) {
-      pentairPump.setGpm(targetPumpGpm);
+      pumpProtocol.setGpm(targetPumpGpm);
     } else {
-      pentairPump.setRpm(targetPumpRpm);
+      pumpProtocol.setRpm(targetPumpRpm);
     }
     vTaskDelay(pdMS_TO_TICKS(50));
-    pentairPump.setPower(true);
+    pumpProtocol.setPower(true);
     if (logTarget) {
       if (targetPumpMode == PumpControlMode::Gpm) {
         ESP_LOGI(TAG, "Pump target: ON, %u GPM", targetPumpGpm);
@@ -145,13 +140,18 @@ static void sendPumpTarget(bool logTarget) {
       }
     }
   } else {
-    pentairPump.setPower(false);
+    pumpProtocol.setPower(false);
     if (logTarget) {
       ESP_LOGI(TAG, "Pump target: OFF");
     }
   }
 
   lastPumpKeepAliveMs = (uint32_t)(esp_timer_get_time() / 1000);
+}
+
+static void reportPumpTargetChanged() {
+  schedulePumpMatterReport(targetPumpRunning, pumpTargetPercent());
+  notifyControllerStateChanged();
 }
 
 void handlePumpChange(uint8_t speedPercent) {
@@ -165,31 +165,61 @@ void handlePumpChange(uint8_t speedPercent) {
 }
 
 void handlePumpPower(bool active) {
+  const bool changed = targetPumpRunning != active;
   targetPumpRunning = active;
   sendPumpTarget(true);
+  if (changed) reportPumpTargetChanged();
 }
 
 void handlePumpRpm(uint16_t rpm) {
   if (rpm < MIN_RPM) rpm = MIN_RPM;
   if (rpm > maxRpm) rpm = maxRpm;
+  const bool changed = !targetPumpRunning || targetPumpMode != PumpControlMode::Rpm ||
+                       targetPumpRpm != rpm;
   targetPumpMode = PumpControlMode::Rpm;
   targetPumpRpm = rpm;
   targetPumpRunning = true;
   lastNonZeroPumpPercent = rpmToPercent(rpm);
   sendPumpTarget(true);
+  if (changed) reportPumpTargetChanged();
 }
 
 void handlePumpGpm(uint8_t gpm) {
   if (gpm < MIN_GPM) gpm = MIN_GPM;
   if (gpm > MAX_GPM) gpm = MAX_GPM;
+  const bool changed = !targetPumpRunning || targetPumpMode != PumpControlMode::Gpm ||
+                       targetPumpGpm != gpm;
   targetPumpMode = PumpControlMode::Gpm;
   targetPumpGpm = gpm;
   targetPumpRunning = true;
+  lastNonZeroPumpPercent = 1 +
+      ((static_cast<uint16_t>(gpm - MIN_GPM) * 99) / (MAX_GPM - MIN_GPM));
   sendPumpTarget(true);
+  if (changed) reportPumpTargetChanged();
 }
 
 PumpControlMode pumpControlMode() {
   return targetPumpMode;
+}
+
+bool pumpTargetRunning() {
+  return targetPumpRunning;
+}
+
+uint16_t pumpTargetRpm() {
+  return targetPumpRpm;
+}
+
+uint8_t pumpTargetGpm() {
+  return targetPumpGpm;
+}
+
+uint8_t pumpTargetPercent() {
+  if (!targetPumpRunning) return 0;
+  return targetPumpMode == PumpControlMode::Rpm
+      ? rpmToPercent(targetPumpRpm)
+      : 1 + ((static_cast<uint16_t>(targetPumpGpm - MIN_GPM) * 99) /
+             (MAX_GPM - MIN_GPM));
 }
 
 static void maintainPumpTarget(uint32_t now) {
@@ -198,35 +228,34 @@ static void maintainPumpTarget(uint32_t now) {
 }
 
 void readPumpStatus() {
-  PentairPumpStatus status;
-  while (pentairPump.readStatus(status)) {
-    pumpStatus.rpm = status.rpm;
-    pumpStatus.watts = status.watts;
-    pumpStatus.flow = status.flow;
-    pumpStatus.mode = status.mode;
-    pumpStatus.ppc = status.ppc;
-    pumpStatus.reserved = status.reserved;
-    pumpStatus.command = status.command;
-    pumpStatus.driveState = status.driveState;
-    pumpStatus.pumpError = status.pumpError;
-    pumpStatus.statusWord = status.statusWord;
-    pumpStatus.clockHour = status.clockHour;
-    pumpStatus.clockMinute = status.clockMinute;
+  if (!pumpProtocol.readStatus) return;
+
+  uint16_t rpm = 0, watts = 0;
+  uint8_t flow = 0;
+  bool fault = false;
+
+  while (pumpProtocol.readStatus(rpm, watts, flow, fault)) {
+    const bool wasRunning = pumpStatus.rpm >= MIN_RPM;
+    const bool isRunning = rpm >= MIN_RPM;
+    const uint16_t rpmDelta = rpm > pumpStatus.rpm
+        ? rpm - pumpStatus.rpm
+        : pumpStatus.rpm - rpm;
+    const bool statusChanged = !pumpStatus.valid || wasRunning != isRunning ||
+                               rpmDelta >= 50 || pumpStatus.flow != flow ||
+                               pumpStatus.pumpError != (fault ? 1u : 0u);
+
+    pumpStatus.rpm = rpm;
+    pumpStatus.watts = watts;
+    pumpStatus.flow = flow;
+    pumpStatus.pumpError = fault ? 1 : 0;
     pumpStatus.valid = true;
-
-    bool running = status.command == 10 || status.driveState == 2 || status.rpm >= MIN_RPM;
-    uint8_t percent = running ? rpmToPercent(status.rpm) : 0;
-
-    ESP_LOGI(TAG, "Status: command=%u drive=%u rpm=%u flow=%u watts=%u target=%s",
-             status.command, status.driveState, status.rpm, status.flow, status.watts,
-             targetPumpMode == PumpControlMode::Gpm ? "GPM" : "RPM");
-    schedulePumpMatterReport(running, percent);
+    if (statusChanged) notifyControllerStateChanged(fault);
   }
 
   uint32_t now = (uint32_t)(esp_timer_get_time() / 1000);
   maintainPumpTarget(now);
   if (now - lastPumpStatusMs >= STATUS_POLL_MS) {
-    pentairPump.requestStatus();
+    pumpProtocol.requestStatus();
     lastPumpStatusMs = now;
   }
 }

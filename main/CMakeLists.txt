@@ -11,6 +11,7 @@ idf_component_register(
         "pump/jandy_pump.cpp"
         "pump/pentair_pump.cpp"
         "pump/pump_control.cpp"
+        "pump/pump_protocol.cpp"
     INCLUDE_DIRS "."
     REQUIRES
     nvs_flash

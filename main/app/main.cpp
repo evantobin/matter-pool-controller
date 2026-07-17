@@ -15,14 +15,13 @@
 #include "app/state.h"
 #include "board/board_identity.h"
 #include "board/board_pins.h"
-#include "console/serial_console.h"
 #include "io/relays.h"
 #include "io/sensors.h"
 #include "io/user_feedback.h"
 #include "matter/matter_setup.h"
 #include "platform/psa_init_patch.h"
-#include "pump/pentair_pump.h"
-#include "pump/pump_control.h"
+#include "pump/pump_protocol.h"
+#include "cloud/cloud_service.h"
 
 static const char *TAG = "main";
 
@@ -46,10 +45,16 @@ static void configureLogLevels() {
 }
 
 // ---------- Pump ----------
-
-PentairPump pentairPump(UART_NUM_1, 96, 16);
+// Protocol and address selected at compile time via board config
 
 // ---------- Main ----------
+
+static bool wifiStationHasAddress() {
+  esp_netif_t *station = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+  esp_netif_ip_info_t address = {};
+  return station && esp_netif_is_netif_up(station) &&
+         esp_netif_get_ip_info(station, &address) == ESP_OK && address.ip.addr != 0;
+}
 
 extern "C" void app_main() {
   configureLogLevels();
@@ -78,11 +83,10 @@ extern "C" void app_main() {
   setupSensors();
   setupRelaysSafe();
   setAllRelaysOff("boot");
-  setupSerialConsole();
+  initializeCloudService();
 
-  // Pentair pump on UART1
-  pentairPump.begin(9600, BoardPins::RS485_RX, BoardPins::RS485_TX);
-  pentairPump.setDebug(false);
+  // RS-485 pump (protocol selected at compile time)
+  pumpProtocolInit(PUMP_PROTOCOL, PUMP_ADDRESS, BoardPins::RS485_RX, BoardPins::RS485_TX, -1);
 
   // Matter
   configureMatterCommissioning();
@@ -101,17 +105,15 @@ extern "C" void app_main() {
   // Start pump control
   handlePumpChange(0);
   vTaskDelay(pdMS_TO_TICKS(50));
-  pentairPump.requestStatus();
+  pumpProtocol.requestStatus();
   lastPumpStatusMs = (uint32_t)(esp_timer_get_time() / 1000);
 
   // Main loop
   while (1) {
     if (!isMatterCommissioned()) {
-      uint32_t now = (uint32_t)(esp_timer_get_time() / 1000);
-      if (!printedCommissioningInfo || now - lastCommissioningLogMs >= COMMISSIONING_LOG_MS) {
+      if (!printedCommissioningInfo) {
         printCommissioningInfo();
         printedCommissioningInfo = true;
-        lastCommissioningLogMs = now;
       }
       updateUserFeedback();
       vTaskDelay(pdMS_TO_TICKS(100));
@@ -122,6 +124,8 @@ extern "C" void app_main() {
     readPumpStatus();
     updateUserFeedback();
     handleBootButton();
+    cloudServiceSetConnected(wifiStationHasAddress());
+    pollCloudService();
     vTaskDelay(pdMS_TO_TICKS(10));
   }
 }
