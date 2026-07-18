@@ -20,6 +20,7 @@
 #include "io/user_feedback.h"
 #include "matter/matter_setup.h"
 #include "platform/psa_init_patch.h"
+#include "pump/pump_control.h"
 #include "pump/pump_protocol.h"
 #include "cloud/cloud_service.h"
 
