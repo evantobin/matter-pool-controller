@@ -23,17 +23,23 @@ sizes, breakers, and equipment connections to the gear you are actually using.
 
 ## What You Get
 
-- Pump speed control for a Pentair IntelliFlo-compatible variable-speed pump.
+- Pump speed control for Pentair IntelliFlo-compatible and Jandy ePump-compatible
+  variable-speed pumps over RS-485. Select the protocol at compile time and the
+  firmware handles the rest.
 - Six Matter relay switches for equipment such as an SWG, heater, valves, or
-  landscape lights.
-- Optional water-level, flow, and DS18B20 temperature sensors.
+  landscape lights. Each relay gets fixed names, icons, and roles via a local
+  configuration header.
+- Optional water-level, flow, and DS18B20 temperature sensors, each configurable
+  on a per-port basis in the sensor config header.
 - A physical factory reset and a small serial console for setup and recovery.
 - A setup that starts with every relay off.
+- **New:** Jandy ePump driver and a pump protocol abstraction layer. Switch
+  between Pentair and Jandy with a single compile-time constant in `state.h`.
 
 ```mermaid
 flowchart LR
   Home["Matter home"] <-->|"Wi-Fi"| Bridge["Pool controller"]
-  Bridge <-->|"RS-485"| Pump["Pentair pump"]
+  Bridge <-->|"RS-485"| Pump["Pentair / Jandy pump"]
   Sensors["Flow, level, temperature"] --> Bridge
   Bridge --> Relays["24 V control relays"]
   Relays --> Swg["SWG control"]
@@ -182,7 +188,7 @@ main/console/         USB serial commands
 main/io/              Relays, sensors, LEDs, buzzer, and reset button
 main/matter/          Matter bridge and devices
 main/platform/        ESP-IDF compatibility bits
-main/pump/            Pentair protocol and pump control
+main/pump/            Pentair and Jandy protocol drivers, pump control, and protocol abstraction
 docs/ARCHITECTURE.md  More detail about how the pieces fit together
 ```
 
@@ -196,6 +202,36 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) before sending a pull request.
 Keep certificates, keys, generated `sdkconfig` files, build folders, and your
 personal commissioning values out of Git. Use [SECURITY.md](SECURITY.md) for
 security reports.
+
+## Cloud Edition Features
+
+This public firmware is the complete local-only controller. The private
+[Pool Conductor Cloud Edition](https://poolconductor.com) adds features that
+depend on a hosted backend and aren't practical without a cloud service:
+
+| Feature | Public | Cloud Edition |
+| --- | :---: | :---: |
+| Pentair IntelliFlo pump control | ✓ | ✓ |
+| Jandy ePump pump control | ✓ | ✓ |
+| Six relay channels with Matter | ✓ | ✓ |
+| Flow, level, and temperature sensors | ✓ | ✓ |
+| Serial console for setup/recovery | ✓ | ✓ |
+| Hayward, Emaux, Century VGreen, Speck Neo, and Nidec Neptune pump protocols | — | ✓ |
+| Automatic protocol detection from pump model | — | ✓ |
+| Web dashboard with live telemetry | — | ✓ |
+| Energy, flow, and temperature history graphs | — | ✓ |
+| Remote firmware updates (OTA via AWS IoT) | — | ✓ |
+| Relay and sensor configuration from a browser | — | ✓ |
+| Cloud-backed controller logs | — | ✓ |
+| Apple Sign In authentication | — | ✓ |
+| Fleet provisioning (zero-touch device onboarding) | — | ✓ |
+| Account management and multi-controller support | — | ✓ |
+| Pump model library with photos (76 models across 7 protocols) | — | ✓ |
+
+The cloud edition firmware lives in a private downstream repository and is not
+part of this open-source release. The protocol abstraction layer in `main/pump/`
+was designed so that additional pump drivers can be added without touching the
+control logic.
 
 ## Support Development
 
