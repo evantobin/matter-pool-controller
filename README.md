@@ -213,6 +213,7 @@ depend on a hosted backend and aren't practical without a cloud service:
 | Account management and multi-controller support | — | ✓ |
 | Support for 76+ pump models! | — | ✓ |
 | Opt-in cloud connectivity (can be disabled from the web dashboard) | — | ✓ |
+| Pump scheduling with offline execution (runs locally once downloaded) | — | ✓ |
 
 The cloud edition firmware lives in a private downstream repository and is not
 part of this open-source release. Cloud connectivity is optional — you can turn
