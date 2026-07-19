@@ -76,9 +76,13 @@ jobs:
         run: |
           mkdir -p ~/esp
           cd ~/esp
-          git clone --branch release/v1.4 --depth 1 --recursive https://github.com/espressif/esp-matter.git
-          cd esp-matter/connectedhomeip/connectedhomeip
-          ./scripts/checkout_submodules.py --platform esp32 --shallow
+          git clone --branch release/v1.4 --depth 1 https://github.com/espressif/esp-matter.git
+          cd esp-matter
+          git submodule update --init --depth 1
+          cd connectedhomeip/connectedhomeip
+          ./scripts/checkout_submodules.py --platform esp32 linux --shallow
+          cd ../..
+          ./install.sh --no-host-tool
 
       - name: Set target
         working-directory: ${{ github.workspace }}
