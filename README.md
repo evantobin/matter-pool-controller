@@ -212,11 +212,13 @@ depend on a hosted backend and aren't practical without a cloud service:
 | Fleet provisioning (zero-touch device onboarding) | — | ✓ |
 | Account management and multi-controller support | — | ✓ |
 | Support for 76+ pump models! | — | ✓ |
+| Opt-in cloud connectivity (can be disabled from the web dashboard) | — | ✓ |
 
 The cloud edition firmware lives in a private downstream repository and is not
-part of this open-source release. The protocol abstraction layer in `main/pump/`
-was designed so that additional pump drivers can be added without touching the
-control logic.
+part of this open-source release. Cloud connectivity is optional — you can turn
+it off from the advanced settings page of the web dashboard. When disabled, the
+controller runs entirely local with no MQTT connection, no telemetry, and no
+remote access. A physical factory reset is required to re-enable it.
 
 ## Support Development
 
