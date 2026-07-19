@@ -18,8 +18,7 @@ This is a sample layout for planning the panel. Match the contactors, wire
 sizes, breakers, and equipment connections to the gear you are actually using.
 
 **Jump to:** [Shopping list](#shopping-list) | [Build the panel](#build-the-panel) |
-[Firmware setup](#firmware-setup) | [Flash and pair](#flash-and-pair) |
-[Serial commands](#serial-commands)
+[Firmware setup](#firmware-setup) | [Flash and pair](#flash-and-pair)
 
 ## What You Get
 
@@ -31,7 +30,7 @@ sizes, breakers, and equipment connections to the gear you are actually using.
   configuration header.
 - Optional water-level, flow, and DS18B20 temperature sensors, each configurable
   on a per-port basis in the sensor config header.
-- A physical factory reset and a small serial console for setup and recovery.
+- A physical factory reset button for setup and recovery.
 - A setup that starts with every relay off.
 - **New:** Jandy ePump driver and a pump protocol abstraction layer. Switch
   between Pentair and Jandy with a single compile-time constant in `state.h`.
@@ -167,24 +166,11 @@ idf.py flash monitor
 On its first boot, the controller prints its Matter pairing information. Add it
 to your Matter home from there.
 
-## Serial Commands
-
-Plug in over USB and use the serial prompt when you need to check setup or get
-back to a clean slate.
-
-| Command | What it does |
-| --- | --- |
-| `help` | Shows the available commands. |
-| `matter-info` | Prints the Matter pairing information again. |
-| `reset` | Restarts the controller without forgetting anything. |
-| `factory-reset` | Turns off the relays, clears Matter, and restarts. |
-
 ## How the Code Is Laid Out
 
 ```text
 main/app/             Startup and the main loop
 main/board/           Board pins, device identity, and sensor setup
-main/console/         USB serial commands
 main/io/              Relays, sensors, LEDs, buzzer, and reset button
 main/matter/          Matter bridge and devices
 main/platform/        ESP-IDF compatibility bits
@@ -215,7 +201,6 @@ depend on a hosted backend and aren't practical without a cloud service:
 | Jandy ePump pump control | ✓ | ✓ |
 | Six relay channels with Matter | ✓ | ✓ |
 | Flow, level, and temperature sensors | ✓ | ✓ |
-| Serial console for setup/recovery | ✓ | ✓ |
 | Hayward, Emaux, Century VGreen, Speck Neo, and Nidec Neptune pump protocols | — | ✓ |
 | Automatic protocol detection from pump model | — | ✓ |
 | Web dashboard with live telemetry | — | ✓ |

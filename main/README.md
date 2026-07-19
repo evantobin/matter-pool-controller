@@ -7,7 +7,6 @@ they own rather than by when they happened to be created.
 | --- | --- |
 | `app/` | Startup order, main loop, and shared runtime state. |
 | `board/` | Per-controller Matter identity, GPIO assignments, and compile-time sensor setup. |
-| `console/` | UART recovery and commissioning commands. |
 | `io/` | Relay outputs, physical sensors, status LED/buzzer, and reset button. |
 | `matter/` | Matter bridge, endpoints, metadata, and commissioning output. |
 | `platform/` | Small ESP-IDF or SDK compatibility workarounds. |
