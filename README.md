@@ -226,7 +226,7 @@ depend on a hosted backend and aren't practical without a cloud service:
 | Apple Sign In authentication | — | ✓ |
 | Fleet provisioning (zero-touch device onboarding) | — | ✓ |
 | Account management and multi-controller support | — | ✓ |
-| Pump model library with photos (76 models across 7 protocols) | — | ✓ |
+| Support for 76+ pump models! | — | ✓ |
 
 The cloud edition firmware lives in a private downstream repository and is not
 part of this open-source release. The protocol abstraction layer in `main/pump/`
